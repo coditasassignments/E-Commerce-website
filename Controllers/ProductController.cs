@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using E_Commerce_Website.Models;
 using E_Commerce_Website.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace E_Commerce_Website.Controllers
 {
+    [Authorize]
     public class ProductController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -12,11 +14,13 @@ namespace E_Commerce_Website.Controllers
         {
             _context = context;
         }
+        [Authorize]
         public IActionResult Index()
         {
             var products = _context.Products.ToList();
             return View(products);
         }
+        [Authorize]
         public IActionResult Details(int id)
         {
             var product = _context.Products.FirstOrDefault(p => p.ID == id);

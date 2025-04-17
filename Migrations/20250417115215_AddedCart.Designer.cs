@@ -3,6 +3,7 @@ using E_Commerce_Website.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_Commerce_Website.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250417115215_AddedCart")]
+    partial class AddedCart
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,6 +38,13 @@ namespace E_Commerce_Website.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Carts");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            UserID = 1
+                        });
                 });
 
             modelBuilder.Entity("E_Commerce_Website.Models.CartItem", b =>
@@ -61,6 +71,22 @@ namespace E_Commerce_Website.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("CartItems");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            CartId = 1,
+                            ProductId = 1,
+                            Quantity = 2
+                        },
+                        new
+                        {
+                            ID = 2,
+                            CartId = 1,
+                            ProductId = 2,
+                            Quantity = 1
+                        });
                 });
 
             modelBuilder.Entity("E_Commerce_Website.Models.Product", b =>

@@ -170,3 +170,4 @@ C:\Users\Coditas-Admin.5742-LAP-0185\source\repos\E-Commerce-Website\E-Commerce-
 C:\Users\Coditas-Admin.5742-LAP-0185\source\repos\E-Commerce-Website\E-Commerce-Website\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 C:\Users\Coditas-Admin.5742-LAP-0185\source\repos\E-Commerce-Website\E-Commerce-Website\obj\Debug\net8.0\E-Commerce-Website.csproj.AssemblyReference.cache
 C:\Users\Coditas-Admin.5742-LAP-0185\source\repos\E-Commerce-Website\E-Commerce-Website\obj\Debug\net8.0\E-Commer.6ABBCC84.Up2Date
+C:\Users\Coditas-Admin.5742-LAP-0185\source\repos\E-Commerce-Website\E-Commerce-Website\obj\Debug\net8.0\E-Commerce-Website.sourcelink.json

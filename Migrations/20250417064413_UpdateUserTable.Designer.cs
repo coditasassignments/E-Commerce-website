@@ -3,6 +3,7 @@ using E_Commerce_Website.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_Commerce_Website.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250417064413_UpdateUserTable")]
+    partial class UpdateUserTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -20,22 +23,6 @@ namespace E_Commerce_Website.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("E_Commerce_Website.Models.Cart", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
-
-                    b.Property<int>("UserID")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Carts");
-                });
 
             modelBuilder.Entity("E_Commerce_Website.Models.CartItem", b =>
                 {
@@ -45,10 +32,7 @@ namespace E_Commerce_Website.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<int?>("CartId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ProductId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
@@ -56,11 +40,23 @@ namespace E_Commerce_Website.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("CartId");
-
                     b.HasIndex("ProductId");
 
                     b.ToTable("CartItems");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            ProductId = 1,
+                            Quantity = 2
+                        },
+                        new
+                        {
+                            ID = 2,
+                            ProductId = 2,
+                            Quantity = 1
+                        });
                 });
 
             modelBuilder.Entity("E_Commerce_Website.Models.Product", b =>
@@ -164,35 +160,17 @@ namespace E_Commerce_Website.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Users", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            ID = 1,
-                            Email = "",
-                            Password = "1234",
-                            UserName = "Pranjali"
-                        });
                 });
 
             modelBuilder.Entity("E_Commerce_Website.Models.CartItem", b =>
                 {
-                    b.HasOne("E_Commerce_Website.Models.Cart", "Cart")
-                        .WithMany("CartItems")
-                        .HasForeignKey("CartId");
-
                     b.HasOne("E_Commerce_Website.Models.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProductId");
-
-                    b.Navigation("Cart");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("E_Commerce_Website.Models.Cart", b =>
-                {
-                    b.Navigation("CartItems");
                 });
 #pragma warning restore 612, 618
         }

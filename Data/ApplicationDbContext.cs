@@ -1,19 +1,30 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿
+using Microsoft.EntityFrameworkCore;
 using E_Commerce_Website.Models;
 
 namespace E_Commerce_Website.Data
 {
-    public class ApplicationDbContext: DbContext
+    public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
 
         }
         public DbSet<Product> Products { get; set; }
-        public DbSet<CartItem> CartItems { get; set;}
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<User>().HasData(
+                new User { ID = 1, UserName = "Pranjali", Password = "1234" }
+                );
+
+            modelBuilder.Entity<Cart>();
+
             modelBuilder.Entity<Product>().HasData(
                 new Product { ID = 1, Name = "Shirt", Description = "Cotton Shirt for comfort", Price = 599, Image = "https://static.vecteezy.com/system/resources/thumbnails/028/252/048/small/men-s-t-shirt-realistic-mockup-in-different-colors-ai-generated-photo.jpg" },
 
@@ -28,10 +39,9 @@ namespace E_Commerce_Website.Data
                 new Product { ID = 6, Name = "Shirt", Description = "Cotton Shirt for comfort", Price = 599, Image = "https://static.vecteezy.com/system/resources/thumbnails/028/252/048/small/men-s-t-shirt-realistic-mockup-in-different-colors-ai-generated-photo.jpg" }
                 );
 
-            modelBuilder.Entity<CartItem>().HasData(
-                new CartItem { ID = 1, ProductId = 1, Quantity = 2 },
-                new CartItem { ID = 2, ProductId = 2, Quantity = 1 }
-                );
+
+
+            modelBuilder.Entity<User>().ToTable("Users");
         }
     }
 }
