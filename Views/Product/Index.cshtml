@@ -71,18 +71,23 @@
 
 <h2 style="text-align:center; margin-top:30px;">Product List</h2>
 <div class="product-container">
-    @foreach (var product in Model)
+    @foreach (var item in Model)
     {
-        <div class="product-card">
-            <img src = "@product.Image" alt="@product.Name" />
-            <h3>
-                <a href="@Url.Action("Details", "Product", new {id = product.ID})">
-                    @product.Name
-                </a>
-            </h3>
-            <p>@product.Description</p>
-            <p class="price">@product.Price</p>
-            <button class="add-to-cart-btn">Add to cart</button>
+
+        <div class="card mb-3" style="width: 18rem;">
+            <img src="@item.Image" alt="@item.Name" class="img-fluid mb-2" style="max-height: 200px;" />
+            <div class="card-body">
+
+                <h5 class="card-title">@item.Name</h5>
+                <p class="card-text">@item.Description</p>
+                <p class="card-text">Price: ₹@item.Price</p>
+
+                <form asp-controller="Cart" asp-action="AddToCart" method="post">
+                    <input type="hidden" name="productId" value="@item.ID" />
+                    <input type="number" name="quantity" value="1" min="1" class="form-control mb-2" />
+                    <button type="submit" class="btn btn-primary">Add to Cart</button>
+                </form>
+            </div>
         </div>
     }
 </div>

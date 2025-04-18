@@ -63,10 +63,11 @@ namespace E_Commerce_Website.Controllers
                 if (user != null && PasswordHelper.VerifyPassword(model.Password, user.Password))
                 {
                     var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.NameIdentifier, user.ID.ToString())
-            };
+                    {
+                        new Claim(ClaimTypes.Name, user.UserName),
+                        new Claim(ClaimTypes.NameIdentifier, user.ID.ToString()),
+                        new Claim("UserID", user.ID.ToString())
+                    };
                     var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     var principal = new ClaimsPrincipal(identity);
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
