@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using E_Commerce_Website.Models;
 using E_Commerce_Website.Data;
+using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
 
 namespace E_Commerce_Website.Controllers
 {
@@ -90,8 +91,58 @@ namespace E_Commerce_Website.Controllers
                 ViewBag.Message = "Your cart is Empty.";
                 return View(new List<CartItem>());
             }
+            decimal grandTotal = (decimal)cart.CartItems.Sum(item => (item.Product?.Price ?? 0) * item.Quantity);
+            ViewBag.GrandTotal = grandTotal;
+
             return View(cart.CartItems.ToList());
             
         }
+        [HttpPost]
+       public IActionResult IncreaseQuantity(int cartItemId)
+        {
+            var cartItem = _context.CartItems.FirstOrDefault(ci => ci.ID == cartItemId);
+            if(cartItem!= null)
+            {
+                cartItem.Quantity++;
+                _context.SaveChanges();
+            }
+            return RedirectToAction("ViewCart");
+        }
+        [HttpPost]
+        public IActionResult DecreaseQuantity(int cartItemId)
+        {
+            var cartItem = _context.CartItems.FirstOrDefault(ci => ci.ID == cartItemId);
+            if(cartItem!= null && cartItem.Quantity > 1)
+            {
+                cartItem.Quantity--;
+                _context.SaveChanges();
+            }
+            return RedirectToAction("ViewCart");
+        }
+        [HttpPost]
+        public IActionResult RemoveItem(int cartItemId)
+        {
+            try
+            {
+                var cartItem = _context.CartItems.FirstOrDefault(ci => ci.ID == cartItemId);
+                if(cartItem == null)
+                {
+                    TempData["Error Message"] = "Item Not Found in your Cart!";
+                    return RedirectToAction("ViewCart");
+                }
+                _context.CartItems.Remove(cartItem);
+                _context.SaveChanges();
+                TempData["SuccessMessage"] = "Item removed successfully!";
+
+            }
+            catch(Exception )
+            {
+                TempData["Error Message"] = "Error occured while removing the item. Please try again later!";
+                
+            }
+            return RedirectToAction("ViewCart");
+
+        }
+        
     }
 }
