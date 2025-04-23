@@ -1,0 +1,44 @@
+﻿@model IEnumerable<E_Commerce_Website.Models.Product>
+
+<h2>Product Management</h2>
+
+<a href="@Url.Action("AddProduct", "Admin")">Add New Product</a>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Price</td>
+                <td>
+                    @if (item.Quantity == 0)
+                    {
+                        <span class="text-danger font-weight-bold">Out of Stock</span>
+                    }
+                    else
+                    {
+                        @item.Quantity
+                    }
+                </td>
+                <td>
+                    <a asp-action="UpdateQuantity" asp-route-id="@item.ID" class="btn btn-warning btn-sm">
+                        Update Quantity
+                    </a>
+                    <a asp-action="DecreaseQuantity" asp-route-id="@item.ID" class="btn btn-warning">Decrease Quantity</a>
+
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+

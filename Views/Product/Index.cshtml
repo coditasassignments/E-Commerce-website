@@ -81,10 +81,11 @@
                 <h5 class="card-title">@item.Name</h5>
                 <p class="card-text">@item.Description</p>
                 <p class="card-text">Price: ₹@item.Price</p>
+                <p class="card-text">Price: ₹@item.Price</p>
+                    <input type="number" name="quantity" value=@item.Quantity min="1" max=@item.Quantity class="form-control mb-2" />
 
                 <form asp-controller="Cart" asp-action="AddToCart" method="post">
                     <input type="hidden" name="productId" value="@item.ID" />
-                    <input type="number" name="quantity" value="1" min="1" class="form-control mb-2" />
                     <button type="submit" class="btn btn-primary">Add to Cart</button>
                 </form>
             </div>

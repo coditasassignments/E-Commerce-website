@@ -10,14 +10,14 @@
         "projectUniqueName": "C:\\Users\\Coditas-Admin.5742-LAP-0185\\source\\repos\\E-Commerce-Website\\E-Commerce-Website\\E-Commerce-Website.csproj",
         "projectName": "E-Commerce-Website",
         "projectPath": "C:\\Users\\Coditas-Admin.5742-LAP-0185\\source\\repos\\E-Commerce-Website\\E-Commerce-Website\\E-Commerce-Website.csproj",
-        "packagesPath": "C:\\Users\\Coditas-Admin.5742-LAP-0185\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\Coditas-Admin.5742-LAP-0185.000\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\Coditas-Admin.5742-LAP-0185\\source\\repos\\E-Commerce-Website\\E-Commerce-Website\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Coditas-Admin.5742-LAP-0185\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Coditas-Admin.5742-LAP-0185.000\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],

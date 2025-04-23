@@ -17,7 +17,7 @@ namespace E_Commerce_Website.Controllers
         [Authorize]
         public IActionResult Index()
         {
-            var products = _context.Products.ToList();
+            var products = _context.Products.Where(p => p.Quantity > 0).ToList();
             return View(products);
         }
         [Authorize]

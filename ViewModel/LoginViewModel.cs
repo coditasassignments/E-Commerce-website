@@ -1,8 +1,14 @@
-﻿namespace E_Commerce_Website.ViewModel
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace E_Commerce_Website.ViewModel
 {
     public class LoginViewModel
     {
-        public required string Username { get; set; }
-        public required string Password { get; set; }
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+        [Required]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
     }
 }

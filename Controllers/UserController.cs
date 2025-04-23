@@ -5,6 +5,7 @@ using E_Commerce_Website.ViewModel;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
+using System.ComponentModel.DataAnnotations;
 
 namespace E_Commerce_Website.Controllers
 {
@@ -16,7 +17,7 @@ namespace E_Commerce_Website.Controllers
         {
             _context = context;
         }
-        public IActionResult Register()
+        public async Task<IActionResult> Register()
         {
             return View();
         }
@@ -50,41 +51,43 @@ namespace E_Commerce_Website.Controllers
         {
             return View();
         }
-
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            Console.WriteLine("Entered Username: " + model.Username);
+            Console.WriteLine("Entered Email: " + model.Email);
             Console.WriteLine("Entered Password: " + model.Password);
 
             if (ModelState.IsValid)
             {
-                var user = _context.Users.FirstOrDefault(u => u.UserName == model.Username);
+                
+                var user = _context.Users.FirstOrDefault(u => u.Email == model.Email);
                 if (user != null && PasswordHelper.VerifyPassword(model.Password, user.Password))
                 {
+                    
                     var claims = new List<Claim>
-                    {
-                        new Claim(ClaimTypes.Name, user.UserName),
-                        new Claim(ClaimTypes.NameIdentifier, user.ID.ToString()),
-                        new Claim("UserID", user.ID.ToString())
-                    };
+            {
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.NameIdentifier, user.ID.ToString()),
+                new Claim("UserID", user.ID.ToString())
+            };
                     var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     var principal = new ClaimsPrincipal(identity);
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
-                    // Add log statement to check redirect
-                    Console.WriteLine("User logged in. Redirecting to Product Index.");
+                  
+                    if (user.Email.Equals("admin@123.com", StringComparison.OrdinalIgnoreCase))
+                    {
+                        return RedirectToAction("Dashboard", "Admin");
+                    }
+
+
                     return RedirectToAction("Index", "Product");
                 }
-
-                ModelState.AddModelError("", "Invalid username or password.");
+                ModelState.AddModelError("", "Invalid email or password.");
             }
+
             return View(model);
         }
-
-
-
-
 
 
 

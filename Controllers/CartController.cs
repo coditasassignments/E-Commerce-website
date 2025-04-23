@@ -29,31 +29,32 @@ namespace E_Commerce_Website.Controllers
                 return 0;
             }
         }
+        
         [HttpPost]
         public IActionResult AddToCart(int productId, int quantity)
         {
             var userId = GetCurrentUserId();
 
-            //To check if cart exists for current user
+            
             var cart = _context.Carts.FirstOrDefault(c => c.UserID == userId);
-            if(cart == null)
+            if (cart == null)
             {
                 cart = new Cart { UserID = userId };
                 _context.Carts.Add(cart);
                 _context.SaveChanges();
             }
 
-            //If the product is still in the cart, we need to update the quantity of the cart
+          
             var existingCartItem = _context.CartItems.FirstOrDefault(ci => ci.CartId == cart.ID && ci.ProductId == productId);
-            if(existingCartItem != null)
+            if (existingCartItem != null)
             {
-                //If the item is still present in the cart then increase the quantity
+                
                 existingCartItem.Quantity += quantity;
                 _context.CartItems.Update(existingCartItem);
             }
             else
             {
-                //Else add new cart item
+               
                 var newcartItem = new CartItem
                 {
                     CartId = cart.ID,
@@ -93,9 +94,12 @@ namespace E_Commerce_Website.Controllers
             }
             decimal grandTotal = (decimal)cart.CartItems.Sum(item => (item.Product?.Price ?? 0) * item.Quantity);
             ViewBag.GrandTotal = grandTotal;
+            foreach (var item in cart.CartItems)
+            {
+                item.Product = _context.Products.FirstOrDefault(p => p.ID == item.ProductId);
+            }
 
             return View(cart.CartItems.ToList());
-            
         }
         [HttpPost]
        public IActionResult IncreaseQuantity(int cartItemId)
@@ -144,5 +148,6 @@ namespace E_Commerce_Website.Controllers
 
         }
         
+
     }
 }

@@ -1,0 +1,64 @@
+﻿@model IEnumerable<E_Commerce_Website.Models.Product>
+
+<h2>Product List</h2>
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Price</td>
+                <td>
+                    @if (item.Quantity == 0)
+                    {
+                        <span class="text-danger font-weight-bold">Out of Stock</span>
+                    }
+                    else
+                    {
+                        @item.Quantity
+                    }
+                </td>
+                <td>
+                    @if (item.Quantity > 0)
+                    {
+                        <form asp-controller="Cart" asp-action="AddToCart" method="post">
+                            <input type="hidden" name="ProductId" value="@item.ID" />
+
+                            <label>Quantity:</label>
+                            <input type="number" name="Quantity" min="1" max="@item.Quantity" required />
+
+                            <button type="submit" class="btn btn-primary">Add to Cart</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <span class="text-muted">Out of Stock</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
