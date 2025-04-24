@@ -104,7 +104,9 @@ namespace E_Commerce_Website.Controllers
         [HttpPost]
        public IActionResult IncreaseQuantity(int cartItemId)
         {
+
             var cartItem = _context.CartItems.FirstOrDefault(ci => ci.ID == cartItemId);
+            Console.WriteLine("Cart ITEM", cartItem);
             if(cartItem!= null)
             {
                 cartItem.Quantity++;

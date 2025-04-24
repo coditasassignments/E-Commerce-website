@@ -33,13 +33,16 @@ namespace E_Commerce_Website.Controllers
         [HttpPost]
         public IActionResult AddProduct(Product product)
         {
+            
             if (ModelState.IsValid)
             {
+                
                 _context.Products.Add(product);
                 _context.SaveChanges();
-                return RedirectToAction("Dashboard");
+                Console.WriteLine(">>> Product Saved");
+                return RedirectToAction("ProductList");
             }
-
+            
             return View(product);
         }
         public IActionResult UpdateQuantity(int id)
