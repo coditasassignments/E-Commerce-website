@@ -10,50 +10,59 @@
 }
 @if (TempData["ErrorMessage"] != null)
 {
-    <div class="alert alert-danger">
-        @TempData["ErrorMessage"]
-    </div>
+    <script>
+        alert('@Html.Raw(Json.Serialize(TempData["ErrorMessage"]))');
+    </script>
+ 
 }
-else
+@if (TempData["StockError"] != null)
 {
-    <table class="table table-bordered">
-        <thead class="table-light">
+    <script>
+        alert("@TempData["StockError"]");
+    </script>
+}
+
+<table class="table table-bordered">
+    <thead class="table-light">
+        <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
             <tr>
-                <th>Product</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Total</th>
-                <th>Actions</th>
+                <td>@item.Product?.Name</td>
+                <td>₹@item.Product?.Price</td>
+                <td>@item.Quantity</td>
+                <td>₹@(item.Product?.Price * item.Quantity)</td>
+                <td>
+                    <form asp-action="IncreaseQuantity" method="post" style="display:inline;">
+                        <input type="hidden" name="cartItemId" value="@item.ID" />
+                        <button type="submit" class="btn btn-sm btn-success">+</button>
+                    </form>
+                    <form asp-action="DecreaseQuantity" method="post" style="display:inline;">
+                        <input type="hidden" name="cartItemId" value="@item.ID" />
+                        <button type="submit" class="btn btn-sm btn-warning">-</button>
+                    </form>
+                    <form asp-action="RemoveItem" method="post" onsubmit="return confirm('Are you sure you wanttoremove this item from the cart?')" style="display:inline;">
+                        <input type="hidden" name="cartItemId" value="@item.ID" />
+                        <button type="submit" class="btn btn-sm btn-danger">Remove</button>
+                    </form>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@item.Product?.Name</td>
-                    <td>₹@item.Product?.Price</td>
-                    <td>@item.Quantity</td>
-                    <td>₹@(item.Product?.Price * item.Quantity)</td>
-                    <td>
-                        <form asp-action="IncreaseQuantity" method="post" style="display:inline;">
-                            <input type="hidden" name="cartItemId" value="@item.ID" />
-                            <button type="submit" class="btn btn-sm btn-success">+</button>
-                        </form>
-                        <form asp-action="DecreaseQuantity" method="post" style="display:inline;">
-                            <input type="hidden" name="cartItemId" value="@item.ID" />
-                            <button type="submit" class="btn btn-sm btn-warning">-</button>
-                        </form>
-                        <form asp-action="RemoveItem" method="post" onsubmit="return confirm('Are you sure you wanttoremove this item from the cart?')" style="display:inline;">
-                            <input type="hidden" name="cartItemId" value="@item.ID" />
-                            <button type="submit" class="btn btn-sm btn-danger">Remove</button>
-                        </form>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+        }
+    </tbody>
+</table>
+    
+
+    
     <div class="text-end mt-3">
         <h4>Grand Total: ₹@ViewBag.GrandTotal</h4> 
     </div>
-}
+
 
